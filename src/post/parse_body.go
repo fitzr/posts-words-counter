@@ -1,10 +1,26 @@
 package post
 
+import (
+    "encoding/xml"
+)
 
-func ExtractTitle(row string) string {
-   return ""
+type Row struct {
+    Title string `xml:"Title,attr"`
+    Body string `xml:"Body,attr"`
 }
 
-func ExtractBody(row string) string {
-   return ""
+func ExtractTitle(str string) string {
+    data := new(Row)
+    if err := xml.Unmarshal([]byte(str), data); err != nil {
+        return ""
+    }
+    return data.Title
+}
+
+func ExtractBody(str string) string {
+    data := new(Row)
+    if err := xml.Unmarshal([]byte(str), data); err != nil {
+        return ""
+    }
+    return data.Body
 }
