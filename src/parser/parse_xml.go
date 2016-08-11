@@ -1,4 +1,4 @@
-package post
+package parser
 
 import (
     "encoding/xml"
@@ -26,8 +26,4 @@ func ExtractBody(str string) string {
         return ""
     }
     return data.Body
-}
-
-func CountWordsIgnoreCase(str string) map[string]int {
-    return make(map[string]int)
 }

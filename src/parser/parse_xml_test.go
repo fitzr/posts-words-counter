@@ -1,4 +1,4 @@
-package post
+package parser
 
 import (
     "testing"
@@ -54,25 +54,5 @@ func TestExtractBodyWithEmptyString(t *testing.T) {
 
     if actual != expected {
         t.Errorf("\nexpected: %v\nactual: %v", expected, actual)
-    }
-}
-
-func TestCountWordsIgnoreCase(t *testing.T) {
-    input := "If I use pixel width, it works. If the parent is relatively positioned, the percentage width on the child works."
-    expected := 2
-    actual := CountWordsIgnoreCase(input)
-
-    if actual["if"] != expected {
-        t.Errorf("\nexpected: %v\nactual: %v", expected, actual["if"])
-    }
-}
-
-func TestCountWordsIgnoreCaseWithEmptyString(t *testing.T) {
-    input := "If I use pixel width, it works. If the parent is relatively positioned, the percentage width on the child works."
-    expected := 0
-    actual := CountWordsIgnoreCase(input)
-
-    if actual["If"] != expected {
-        t.Errorf("\nexpected: %v\nactual: %v", expected, actual["If"])
     }
 }
