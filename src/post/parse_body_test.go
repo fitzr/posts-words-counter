@@ -23,7 +23,7 @@ func TestExtractTitle(t *testing.T) {
     actual := ExtractTitle(input)
 
     if actual != expected {
-        t.Errorf("\nexpected: %s\nactual: %s", expected, actual)
+        t.Errorf("\nexpected: %v\nactual: %v", expected, actual)
     }
 }
 
@@ -33,7 +33,7 @@ func TestExtractTitleWithEmptyString(t *testing.T) {
     actual := ExtractTitle(input)
 
     if actual != expected {
-        t.Errorf("\nexpected: %s\nactual: %s", expected, actual)
+        t.Errorf("\nexpected: %v\nactual: %v", expected, actual)
     }
 }
 
@@ -43,7 +43,7 @@ func TestExtractBody(t *testing.T) {
     actual := ExtractBody(input)
 
     if actual != expected {
-        t.Errorf("\nexpected: %s\nactual: %s", expected, actual)
+        t.Errorf("\nexpected: %v\nactual: %v", expected, actual)
     }
 }
 
@@ -53,7 +53,7 @@ func TestExtractBodyWithEmptyString(t *testing.T) {
     actual := ExtractBody(input)
 
     if actual != expected {
-        t.Errorf("\nexpected: %s\nactual: %s", expected, actual)
+        t.Errorf("\nexpected: %v\nactual: %v", expected, actual)
     }
 }
 
@@ -63,7 +63,7 @@ func TestCountWordsIgnoreCase(t *testing.T) {
     actual := CountWordsIgnoreCase(input)
 
     if actual["if"] != expected {
-        t.Errorf("\nexpected: %d\nactual: %d", expected, actual["if"])
+        t.Errorf("\nexpected: %v\nactual: %v", expected, actual["if"])
     }
 }
 
@@ -73,6 +73,6 @@ func TestCountWordsIgnoreCaseWithEmptyString(t *testing.T) {
     actual := CountWordsIgnoreCase(input)
 
     if actual["If"] != expected {
-        t.Errorf("\nexpected: %d\nactual: %d", expected, actual["If"])
+        t.Errorf("\nexpected: %v\nactual: %v", expected, actual["If"])
     }
 }
