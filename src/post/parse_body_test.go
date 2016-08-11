@@ -27,7 +27,7 @@ func TestExtractTitle(t *testing.T) {
     }
 }
 
-func TestExtractTitleIfNotExists(t *testing.T) {
+func TestExtractTitleWithEmptyString(t *testing.T) {
     input := "bar baz"
     expected := ""
     actual := ExtractTitle(input)
@@ -47,12 +47,32 @@ func TestExtractBody(t *testing.T) {
     }
 }
 
-func TestExtractBodyIfNotExists(t *testing.T) {
+func TestExtractBodyWithEmptyString(t *testing.T) {
     input := "<br />"
     expected := ""
     actual := ExtractBody(input)
 
     if actual != expected {
         t.Errorf("\nexpected: %s\nactual: %s", expected, actual)
+    }
+}
+
+func TestCountWordsIgnoreCase(t *testing.T) {
+    input := "If I use pixel width, it works. If the parent is relatively positioned, the percentage width on the child works."
+    expected := 2
+    actual := CountWordsIgnoreCase(input)
+
+    if actual["if"] != expected {
+        t.Errorf("\nexpected: %d\nactual: %d", expected, actual["if"])
+    }
+}
+
+func TestCountWordsIgnoreCaseWithEmptyString(t *testing.T) {
+    input := "If I use pixel width, it works. If the parent is relatively positioned, the percentage width on the child works."
+    expected := 0
+    actual := CountWordsIgnoreCase(input)
+
+    if actual["If"] != expected {
+        t.Errorf("\nexpected: %d\nactual: %d", expected, actual["If"])
     }
 }
