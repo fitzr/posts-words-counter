@@ -2,7 +2,7 @@ package parser
 
 import (
     "encoding/xml"
-    "fmt"
+    "log"
 )
 
 type Row struct {
@@ -13,7 +13,7 @@ type Row struct {
 func ExtractTitle(str string) string {
     data := new(Row)
     if err := xml.Unmarshal([]byte(str), data); err != nil {
-        fmt.Println("XML Unmarshal error: ", err)
+        log.Println("XML Unmarshal error: ", err)
         return ""
     }
     return data.Title
@@ -22,7 +22,7 @@ func ExtractTitle(str string) string {
 func ExtractBody(str string) string {
     data := new(Row)
     if err := xml.Unmarshal([]byte(str), data); err != nil {
-        fmt.Println("XML Unmarshal error: ", err)
+        log.Println("XML Unmarshal error: ", err)
         return ""
     }
     return data.Body
