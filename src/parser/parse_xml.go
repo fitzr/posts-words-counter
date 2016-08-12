@@ -12,7 +12,8 @@ type Row struct {
 
 func ExtractTitleFromXml(str string) string {
     data := new(Row)
-    if err := xml.Unmarshal([]byte(str), data); err != nil {
+    err := xml.Unmarshal([]byte(str), data)
+    if err != nil {
         log.Println("XML Unmarshal error: ", err)
         return ""
     }
@@ -21,7 +22,8 @@ func ExtractTitleFromXml(str string) string {
 
 func ExtractBodyFromXml(str string) string {
     data := new(Row)
-    if err := xml.Unmarshal([]byte(str), data); err != nil {
+    err := xml.Unmarshal([]byte(str), data)
+    if err != nil {
         log.Println("XML Unmarshal error: ", err)
         return ""
     }
