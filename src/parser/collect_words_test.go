@@ -88,3 +88,15 @@ func TestMergeCountedWords(t *testing.T) {
         t.Errorf("\nexpected: %v\nactual: %v", expected, actual)
     }
 }
+
+func TestMergeCountedWordsWithNil(t *testing.T) {
+    var input1 map[string]int = nil
+    input2 := map[string]int {"bar": 30, "case": 5}
+    expected := map[string]int {"bar": 30, "case": 5}
+
+    actual := MergeCountedWords(input1, input2)
+
+    if !reflect.DeepEqual(actual, expected) {
+        t.Errorf("\nexpected: %v\nactual: %v", expected, actual)
+    }
+}

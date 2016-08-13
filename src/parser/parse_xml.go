@@ -2,7 +2,6 @@ package parser
 
 import (
     "encoding/xml"
-    "log"
 )
 
 type Row struct {
@@ -14,7 +13,7 @@ func ExtractTitleFromXml(str string) string {
     data := new(Row)
     err := xml.Unmarshal([]byte(str), data)
     if err != nil {
-        log.Println("XML Unmarshal error: ", err)
+        // allow syntax error
         return ""
     }
     return data.Title
@@ -24,7 +23,7 @@ func ExtractBodyFromXml(str string) string {
     data := new(Row)
     err := xml.Unmarshal([]byte(str), data)
     if err != nil {
-        log.Println("XML Unmarshal error: ", err)
+        // allow syntax error
         return ""
     }
     return data.Body
