@@ -2,6 +2,7 @@ package parser
 
 import (
     "testing"
+    "reflect"
 )
 
 func TestCountWords(t *testing.T) {
@@ -73,5 +74,17 @@ func TestCountWordsNotMatch(t *testing.T) {
 
     if actual[target] != expected {
         t.Errorf("\nexpected: %v\nactual: %v", expected, actual[target])
+    }
+}
+
+func TestMergeCountedWords(t *testing.T) {
+    input1 := map[string]int {"test": 10, "case": 20}
+    input2 := map[string]int {"bar": 30, "case": 5}
+    expected := map[string]int {"case":25, "test": 10, "bar": 30}
+
+    actual := MergeCountedWords(input1, input2)
+
+    if !reflect.DeepEqual(actual, expected) {
+        t.Errorf("\nexpected: %v\nactual: %v", expected, actual)
     }
 }
