@@ -6,14 +6,19 @@ import (
 )
 
 var (
-    regexpSymbol = regexp.MustCompile(`[^a-z-'\s]`) // allow single quart and hyphen
-    regexpSingleQuote = regexp.MustCompile(`^'|\s'|'\s|'$`) // match without apostrophe
+    regexpSymbol = regexp.MustCompile(`[^a-z-']`)               // allow single quart and hyphen
+    regexpConsecutive = regexp.MustCompile(`--+|''+|-+'+|'+-+`) // match consecutive hyphen or single quote
+    regexpSingleQuote = regexp.MustCompile(`^'+|\s'+|'+\s|'+$`) // match single quote (without apostrophe)
+    regexpMinus = regexp.MustCompile(`^-+|\s-+|-+\s|-+$`)       // match minus (without hyphen)
 )
 
 func CountWords(str string) map[string]int {
     str = strings.ToLower(str)
-    str = regexpSymbol.ReplaceAllString(str, " ")
-    str = regexpSingleQuote.ReplaceAllString(str, " ")
+    str = strings.Replace(str, "\n", "  ", -1)
+    str = regexpSymbol.ReplaceAllString(str, "  ")
+    str = regexpConsecutive.ReplaceAllString(str, "  ")
+    str = regexpSingleQuote.ReplaceAllString(str, "  ")
+    str = regexpMinus.ReplaceAllString(str, "  ")
 
     m := map[string]int{}
     for _, word := range strings.Fields(str) {

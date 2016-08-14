@@ -22,10 +22,14 @@ func (conn *conn) Write(counts map[string]int) {
     args := make([]interface{}, num*2)
     i := 0
     for word, count := range counts {
-        args[i] = word
-        i++
-        args[i] = count
-        i++
+        if len(word) <= wordMaxLen {
+            args[i] = word
+            i++
+            args[i] = count
+            i++
+        } else {
+            log.Println("word too long : ", word)
+        }
     }
 
     _, err := conn.Exec(sql, args...)

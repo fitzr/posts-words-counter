@@ -6,9 +6,9 @@ import (
 )
 
 func TestCountWords(t *testing.T) {
-    input := "If I use pixel width, it works. If the parent is relatively positioned, the percentage width on the child works. test-case test'case 'test case'"
-    target := "if"
-    expected := 2
+    input := "If I use pixel width, it works. use user used use"
+    target := "use"
+    expected := 3
 
     actual := CountWords(input)
 
@@ -19,9 +19,9 @@ func TestCountWords(t *testing.T) {
 
 
 func TestCountWordsIgnoreCase(t *testing.T) {
-    input := "If I use pixel width, it works. If the parent is relatively positioned, the percentage width on the child works. test-case test'case 'test case'"
-    target := "If"
-    expected := 0
+    input := "If I use pixel width, it works. Use USE usE use"
+    target := "use"
+    expected := 5
 
     actual := CountWords(input)
 
@@ -31,9 +31,21 @@ func TestCountWordsIgnoreCase(t *testing.T) {
 }
 
 func TestCountWordsWithHyphen(t *testing.T) {
-    input := "If I use pixel width, it works. If the parent is relatively positioned, the percentage width on the child works. test-case test'case 'test case'"
+    input := "test-case test case -'test-case"
     target := "test-case"
-    expected := 1
+    expected := 2
+
+    actual := CountWords(input)
+
+    if actual[target] != expected {
+        t.Errorf("%v: \nexpected: %v\nactual: %v", target, expected, actual[target])
+    }
+}
+
+func TestCountWordsWithMinus(t *testing.T) {
+    input := "-test --test -test- test-test"
+    target := "test"
+    expected := 3
 
     actual := CountWords(input)
 
@@ -43,7 +55,7 @@ func TestCountWordsWithHyphen(t *testing.T) {
 }
 
 func TestCountWordsWithApostrophe(t *testing.T) {
-    input := "If I use pixel width, it works. If the parent is relatively positioned, the percentage width on the child works. test-case test'case 'test case'"
+    input := "test'case 'test case'"
     target := "test'case"
     expected := 1
 
@@ -55,9 +67,9 @@ func TestCountWordsWithApostrophe(t *testing.T) {
 }
 
 func TestCountWordsWithSingleQuote(t *testing.T) {
-    input := "If I use pixel width, it works. If the parent is relatively positioned, the percentage width on the child works. test-case test'case 'test case'"
-    target := "'test"
-    expected := 0
+    input := "'test ''test '''test"
+    target := "test"
+    expected := 3
 
     actual := CountWords(input)
 
@@ -67,7 +79,7 @@ func TestCountWordsWithSingleQuote(t *testing.T) {
 }
 
 func TestCountWordsNotMatch(t *testing.T) {
-    input := "If I use pixel width, it works. If the parent is relatively positioned, the percentage width on the child works."
+    input := "If I use pixel width, it works."
     target := "BAR"
     expected := 0
     actual := CountWords(input)
