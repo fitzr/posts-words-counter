@@ -3,7 +3,6 @@ package reader
 import (
     "testing"
     "strings"
-    "fmt"
 )
 
 func TestReadLine(t *testing.T) {
@@ -16,7 +15,6 @@ func TestReadLine(t *testing.T) {
 
     actual, eof := sut.ReadLine()
     expected := ""
-    fmt.Println(len(""))
     if actual != expected {
         t.Errorf("\nexpected: %v\nactual: %v", expected, actual)
     }
