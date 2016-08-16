@@ -1,11 +1,11 @@
 package counter
 
 import (
-    "bufio"
     "log"
     "io"
     "../parser"
     "../writer"
+    "../reader"
 )
 
 var (
@@ -50,10 +50,13 @@ func scan(r io.Reader) {
     defer end()
     defer close(rowChannel)
 
-    scanner := bufio.NewScanner(r)
+    reader := reader.NewLineReader(r)
 
-    for scanner.Scan() {
-        rowChannel <- scanner.Text()
+    var text string
+    eof := false
+    for !eof {
+        text, eof = reader.ReadLine()
+        rowChannel <- text
         progress()
     }
 }
