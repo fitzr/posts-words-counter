@@ -25,7 +25,7 @@ func Count(r reader.Reader, w writer.Writer) {
 
     initialize()
 
-    go scan(r)
+    go read(r)
     go parse()
     go count()
     go pool()
@@ -44,8 +44,8 @@ func initialize() {
     finished = make(chan bool)
 }
 
-func scan(r reader.Reader) {
-    progress, end := logger("scan")
+func read(r reader.Reader) {
+    progress, end := logger("read")
     defer end()
     defer close(rowChannel)
 
@@ -111,7 +111,7 @@ func pool() {
 }
 
 func write(w writer.Writer) {
-    progress, end := logger("persist")
+    progress, end := logger("write")
     defer end()
     defer func () { finished <- true }()
 
