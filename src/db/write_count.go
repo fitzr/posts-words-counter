@@ -10,7 +10,7 @@ const (
     sqlSuffix = " ON DUPLICATE KEY UPDATE count = count + VALUES(count)"
 )
 
-func (conn *conn) Write(counts map[string]int) {
+func (conn *conn) WriteCount(counts map[string]int) {
     num := len(counts)
     if num == 0 {
         log.Println("word count is empty")

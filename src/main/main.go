@@ -5,24 +5,36 @@ import (
     "log"
     "../db"
     "../counter"
+    "../reader"
 )
 
 func main() {
+
+    // args
     if len(os.Args) < 3 {
         log.Fatal("required arguments : command input_file_path output_db_source")
     }
+    inputFilePath := os.Args[1]
+    outputDataSource := os.Args[2]
 
-    fp, err := os.Open(os.Args[1])
+
+    // reader
+    fp, err := os.Open(inputFilePath)
     if err != nil {
         log.Fatal("file cannot open : ", err)
     }
     defer fp.Close()
+    reader := reader.NewLineReader(fp)
 
-    conn, err := db.Open(os.Args[2])
+
+    // writer
+    conn, err := db.Open(outputDataSource)
     if err != nil {
         log.Fatal("db cannot open : ", err)
     }
     defer conn.Close()
 
-    counter.Count(fp, conn)
+
+    // execute
+    counter.Count(reader, conn)
 }

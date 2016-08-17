@@ -2,7 +2,6 @@ package counter
 
 import (
     "log"
-    "io"
     "../parser"
     "../writer"
     "../reader"
@@ -20,7 +19,7 @@ var (
     finished chan bool
 )
 
-func Count(r io.Reader, w writer.Writer) {
+func Count(r reader.Reader, w writer.Writer) {
 
     log.Println("start")
 
@@ -45,17 +44,15 @@ func initialize() {
     finished = make(chan bool)
 }
 
-func scan(r io.Reader) {
+func scan(r reader.Reader) {
     progress, end := logger("scan")
     defer end()
     defer close(rowChannel)
 
-    reader := reader.NewLineReader(r)
-
     var text string
     eof := false
     for !eof {
-        text, eof = reader.ReadLine()
+        text, eof = r.ReadLine()
         rowChannel <- text
         progress()
     }
@@ -119,7 +116,7 @@ func write(w writer.Writer) {
     defer func () { finished <- true }()
 
     for count := range countPoolChannel {
-        w.Write(count)
+        w.WriteCount(count)
         progress()
     }
 }

@@ -26,8 +26,8 @@ func TestWrite(t *testing.T) {
     checkErr(err, "open SUT failed")
     defer sut.Close()
 
-    sut.Write(input)
-    sut.Write(input)
+    sut.WriteCount(input)
+    sut.WriteCount(input)
     sut.Close()
 
 

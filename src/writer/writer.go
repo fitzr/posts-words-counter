@@ -1,5 +1,5 @@
 package writer
 
 type Writer interface {
-    Write(count map[string]int)
+    WriteCount(count map[string]int)
 }
