@@ -8,7 +8,7 @@ const (
     sqlCreateTable = `
 CREATE TABLE IF NOT EXISTS word_count (
   word  VARCHAR(3072) NOT NULL PRIMARY KEY,
-  count INT
+  count INT NOT NULL
 )`
     wordMaxLen = 3072
 )
