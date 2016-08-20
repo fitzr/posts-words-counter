@@ -1,4 +1,4 @@
-package counter
+package task
 
 import (
     "testing"

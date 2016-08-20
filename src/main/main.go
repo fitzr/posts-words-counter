@@ -4,7 +4,7 @@ import (
     "os"
     "log"
     "../db"
-    "../counter"
+    "../task"
     "../reader"
 )
 
@@ -36,5 +36,5 @@ func main() {
 
 
     // execute
-    counter.Count(reader, conn)
+    task.Count(reader, conn)
 }
