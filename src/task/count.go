@@ -11,114 +11,122 @@ var (
     channelSize = 100
     logInterval = 1000
     countPoolLowerLimit = 300
+)
 
+type countTask struct {
     rowChannel chan string
     textChannel chan string
     countChannel chan map[string]int
     countPoolChannel chan map[string]int
     finished chan bool
-)
+}
 
 func Count(r reader.Reader, w writer.Writer) {
 
     log.Println("start")
 
-    initialize()
+    t := newCountTask()
 
-    go read(r)
-    go parse()
-    go count()
-    go pool()
-    go write(w)
+    go t.read(r)
+    go t.parse()
+    go t.count()
+    go t.pool()
+    go t.write(w)
 
-    <- finished
+    t.waitToFinish()
 
     log.Println("finished")
 }
 
-func initialize() {
-    rowChannel = make(chan string, channelSize)
-    textChannel = make(chan string, channelSize)
-    countChannel = make(chan map[string]int, channelSize)
-    countPoolChannel = make(chan map[string]int, channelSize)
-    finished = make(chan bool)
+func newCountTask() countTask {
+    return countTask{
+        rowChannel: make(chan string, channelSize),
+        textChannel: make(chan string, channelSize),
+        countChannel: make(chan map[string]int, channelSize),
+        countPoolChannel: make(chan map[string]int, channelSize),
+        finished: make(chan bool),
+    }
 }
 
-func read(r reader.Reader) {
+func (t *countTask) read(r reader.Reader) {
     progress, end := logger("read")
     defer end()
-    defer close(rowChannel)
+    defer close(t.rowChannel)
 
     var text string
     eof := false
     for !eof {
         text, eof = r.ReadLine()
-        rowChannel <- text
+        t.rowChannel <- text
         progress()
     }
 }
 
-func parse() {
+func (t *countTask) parse() {
     progress, end := logger("parse")
     defer end()
-    defer close(textChannel)
+    defer close(t.textChannel)
 
-    for row := range rowChannel {
+    for row := range t.rowChannel {
         title := parser.ExtractTitleFromXml(row)
         if title != "" {
-            textChannel <- title
+            t.textChannel <- title
         }
 
         body := parser.ExtractTextFromHtml(parser.ExtractBodyFromXml(row))
         if body != "" {
-            textChannel <- body
+            t.textChannel <- body
         }
 
         progress()
     }
 }
 
-func count() {
+func (t *countTask) count() {
     progress, end := logger("count")
     defer end()
-    defer close(countChannel)
+    defer close(t.countChannel)
 
-    for text := range textChannel {
-        countChannel <- parser.CountWords(text)
+    for text := range t.textChannel {
+        t.countChannel <- parser.CountWords(text)
         progress()
     }
 }
 
-func pool() {
+func (t *countTask) pool() {
     progress, end := logger("pool")
     defer end()
-    defer close(countPoolChannel)
+    defer close(t.countPoolChannel)
 
     var pool map[string]int = nil
 
-    for count := range countChannel {
+    for count := range t.countChannel {
         pool = parser.MergeCountedWords(pool, count)
         if len(pool) > countPoolLowerLimit {
-            countPoolChannel <- pool
+            t.countPoolChannel <- pool
             pool = nil
         }
         progress()
     }
 
     if pool != nil {
-        countPoolChannel <- pool
+        t.countPoolChannel <- pool
     }
 }
 
-func write(w writer.Writer) {
+func (t *countTask) write(w writer.Writer) {
     progress, end := logger("write")
     defer end()
-    defer func () { finished <- true }()
+    defer func () { t.finished <- true }()
 
-    for count := range countPoolChannel {
+    for count := range t.countPoolChannel {
         w.WriteCount(count)
         progress()
     }
+}
+
+func (t *countTask) waitToFinish() {
+    <- t.finished
 }
 
 func logger(msg string) (func(), func()) {
