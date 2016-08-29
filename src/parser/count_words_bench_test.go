@@ -1,15 +1,15 @@
 package parser
 
 import (
-    "testing"
+	"testing"
 )
 
 func BenchmarkCountWords(b *testing.B) {
-    input := "If I use pixel width, it works. If the parent is relatively positioned, the percentage width on the child works. test-case test'case 'test case'"
+	input := "If I use pixel width, it works. If the parent is relatively positioned, the percentage width on the child works. test-case test'case 'test case'"
 
-    b.ResetTimer()
+	b.ResetTimer()
 
-    for i := 0; i < b.N; i++ {
-        CountWords(input)
-    }
+	for i := 0; i < b.N; i++ {
+		CountWords(input)
+	}
 }

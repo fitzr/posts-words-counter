@@ -1,21 +1,21 @@
 package db
 
 import (
-    "log"
+	"log"
 )
 
 const (
-    sqlCreateTable = `
+	sqlCreateTable = `
 CREATE TABLE IF NOT EXISTS word_count (
   word  VARCHAR(3072) NOT NULL PRIMARY KEY,
   count INT NOT NULL
 )`
-    wordMaxLen = 3072
+	wordMaxLen = 3072
 )
 
 func (c *conn) createTableIfNotExists() {
-    _, err := c.Exec(sqlCreateTable)
-    if err != nil {
-        log.Fatal("create table failed : ", err)
-    }
+	_, err := c.Exec(sqlCreateTable)
+	if err != nil {
+		log.Fatal("create table failed : ", err)
+	}
 }
