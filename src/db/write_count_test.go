@@ -10,7 +10,7 @@ import (
 )
 
 const (
-    dataSourceName = "test_user@tcp(127.0.0.1:13306)/stack_test"
+    dataSourceName = "test_user:test_pass@tcp(127.0.0.1:13306)/stack_test"
 )
 
 func TestWrite(t *testing.T) {

@@ -6,8 +6,8 @@ machine:
 
 dependencies:
   pre:
-    - docker run -d -p 13306:3306 -e MYSQL_ALLOW_EMPTY_PASSWORD=yes -e MYSQL_DATABASE=stack_test -e MYSQL_USER=test_user mysql:latest
-    - mysqladmin -h 127.0.0.1 -P 13306 -u test_user -w ping
+    - docker run -d -p 13306:3306 -e MYSQL_ALLOW_EMPTY_PASSWORD=yes -e MYSQL_DATABASE=stack_test -e MYSQL_USER=test_user -e MYSQL_PASSWORD=test_pass mysql:latest
+    - mysqladmin -h 127.0.0.1 -P 13306 -u test_user -p test_pass -w ping
     - go get -u github.com/go-sql-driver/mysql
     - go get -u golang.org/x/net/html
     - go get -u github.com/stretchr/testify/mock
