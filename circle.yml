@@ -7,9 +7,10 @@ machine:
 dependencies:
   pre:
     - docker run -d -p 13306:3306 -e MYSQL_ALLOW_EMPTY_PASSWORD=yes -e MYSQL_DATABASE=stack_test -e MYSQL_USER=test_user mysql:latest
-    - go get -t -d -v ./...
-    - go build -v
     - mysqladmin -h 127.0.0.1 -P 13306 -u test_user -w ping
+    - go get -u github.com/go-sql-driver/mysql
+    - go get -u golang.org/x/net/html
+    - go get -u github.com/stretchr/testify/mock
 
 test:
   override:
