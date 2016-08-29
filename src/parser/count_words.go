@@ -12,6 +12,7 @@ var (
 	regexpMinus       = regexp.MustCompile(`^-+|\s-+|-+\s|-+$`) // match minus (without hyphen)
 )
 
+// CountWords is count number of word.
 func CountWords(str string) map[string]int {
 	str = strings.ToLower(str)
 	str = strings.Replace(str, "\n", "  ", -1)
@@ -22,11 +23,12 @@ func CountWords(str string) map[string]int {
 
 	m := map[string]int{}
 	for _, word := range strings.Fields(str) {
-		m[word] += 1
+		m[word]++
 	}
 	return m
 }
 
+// MergeCountedWords is merge word-number maps.
 func MergeCountedWords(m1, m2 map[string]int) map[string]int {
 	ret := map[string]int{}
 	append := func(m map[string]int) {

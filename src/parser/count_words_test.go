@@ -101,7 +101,7 @@ func TestMergeCountedWords(t *testing.T) {
 }
 
 func TestMergeCountedWordsWithNil(t *testing.T) {
-	var input1 map[string]int = nil
+	var input1 map[string]int
 	input2 := map[string]int{"bar": 30, "case": 5}
 	expected := map[string]int{"bar": 30, "case": 5}
 

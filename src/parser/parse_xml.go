@@ -4,13 +4,14 @@ import (
 	"encoding/xml"
 )
 
-type Row struct {
+type row struct {
 	Title string `xml:"Title,attr"`
 	Body  string `xml:"Body,attr"`
 }
 
-func ExtractTitleFromXml(str string) string {
-	data := new(Row)
+// ExtractTitleFromXML is extract title string from post XML.
+func ExtractTitleFromXML(str string) string {
+	data := new(row)
 	err := xml.Unmarshal([]byte(str), data)
 	if err != nil {
 		// allow syntax error
@@ -19,8 +20,9 @@ func ExtractTitleFromXml(str string) string {
 	return data.Title
 }
 
-func ExtractBodyFromXml(str string) string {
-	data := new(Row)
+// ExtractBodyFromXML is extract body string from post XML.
+func ExtractBodyFromXML(str string) string {
+	data := new(row)
 	err := xml.Unmarshal([]byte(str), data)
 	if err != nil {
 		// allow syntax error

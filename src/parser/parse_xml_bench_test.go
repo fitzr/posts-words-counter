@@ -7,7 +7,7 @@ func BenchmarkExtractTitleFromXml(b *testing.B) {
 	b.ResetTimer()
 
 	for i := 0; i < b.N; i++ {
-		ExtractTitleFromXml(input)
+		ExtractTitleFromXML(input)
 	}
 }
 
@@ -16,6 +16,6 @@ func BenchmarkExtractBodyFromXml(b *testing.B) {
 	b.ResetTimer()
 
 	for i := 0; i < b.N; i++ {
-		ExtractBodyFromXml(input)
+		ExtractBodyFromXML(input)
 	}
 }

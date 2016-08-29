@@ -7,7 +7,8 @@ import (
 	"strings"
 )
 
-func ExtractTextFromHtml(str string) string {
+// ExtractTextFromHTML is extract text from post body HTML.
+func ExtractTextFromHTML(str string) string {
 	var buffer bytes.Buffer
 	doc, err := html.Parse(strings.NewReader(str))
 	if err != nil {

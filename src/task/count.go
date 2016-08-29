@@ -21,6 +21,7 @@ type countTask struct {
 	finished         chan bool
 }
 
+// Count word.
 func Count(r reader.Reader, w writer.Writer) {
 
 	log.Println("start")
@@ -68,12 +69,12 @@ func (t *countTask) parse() {
 	defer close(t.textChannel)
 
 	for row := range t.rowChannel {
-		title := parser.ExtractTitleFromXml(row)
+		title := parser.ExtractTitleFromXML(row)
 		if title != "" {
 			t.textChannel <- title
 		}
 
-		body := parser.ExtractTextFromHtml(parser.ExtractBodyFromXml(row))
+		body := parser.ExtractTextFromHTML(parser.ExtractBodyFromXML(row))
 		if body != "" {
 			t.textChannel <- body
 		}
@@ -98,7 +99,7 @@ func (t *countTask) pool() {
 	defer end()
 	defer close(t.countPoolChannel)
 
-	var pool map[string]int = nil
+	var pool map[string]int
 
 	for count := range t.countChannel {
 		pool = parser.MergeCountedWords(pool, count)

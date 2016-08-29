@@ -13,6 +13,7 @@ type lineReader struct {
 
 const buffSize = 4096
 
+// NewLineReader is new line reader object.
 func NewLineReader(r io.Reader) Reader {
 	return &lineReader{bufio.NewReaderSize(r, buffSize)}
 }
