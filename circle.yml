@@ -1,13 +1,16 @@
 machine:
   timezone:
     Asia/Tokyo
+  environment:
+    GOROOT: ""
+    PATH: "/usr/local/go/bin:/usr/local/go_workspace/bin:~/.go_workspace/bin:${PATH}"
+    GOPATH: "~/.go_workspace:/usr/local/go_workspace:${HOME}/.go_project"
 
 dependencies:
   pre:
-    - go get -u github.com/go-sql-driver/mysql
-    - go get -u golang.org/x/net/html
-    - go get -u github.com/stretchr/testify/mock
+    - go get -t -d -v ./...
+    - go build -v
 
 test:
   override:
-    - go test ./src/...
+    - go test -v -race ./...
