@@ -3,15 +3,24 @@ machine:
     Asia/Tokyo
   services:
     - docker
+  post:
+    - cat ~/.circlerc|sed 's/.*GITHUB_TOKEN.*//g'|sed 's/.*COVERALLS_TOKEN.*//g'
 
 dependencies:
   pre:
     - docker run -d -p 13306:3306 -e MYSQL_ALLOW_EMPTY_PASSWORD=yes -e MYSQL_DATABASE=stack_test -e MYSQL_USER=test_user -e MYSQL_PASSWORD=test_pass mysql:latest
     - mysqladmin -h 127.0.0.1 -P 13306 -u test_user -ptest_pass -w ping
-    - go get -u github.com/go-sql-driver/mysql
-    - go get -u golang.org/x/net/html
-    - go get -u github.com/stretchr/testify/mock
+#    - go get -u github.com/go-sql-driver/mysql
+#    - go get -u golang.org/x/net/html
+#    - go get -u github.com/stretchr/testify/mock
+    - go get github.com/axw/gocov/gocov
+    - go get github.com/mattn/goveralls
+    - go get -u github.com/alecthomas/gometalinter
+    - gometalinter --install
 
 test:
   override:
+    - go get -v -t ./...
+    - gometalinter --deadline 30s ./...
     - go test -v -race ./...
+    - goveralls -v -service=circle-ci -repotoken $COVERALLS_TOKEN ./tcpproxy
