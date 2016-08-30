@@ -1,9 +1,9 @@
 package task
 
 import (
-	"../parser"
-	"../reader"
-	"../writer"
+	"github.com/fitzr/posts-words-counter/parser"
+	"github.com/fitzr/posts-words-counter/reader"
+	"github.com/fitzr/posts-words-counter/writer"
 	"log"
 )
 

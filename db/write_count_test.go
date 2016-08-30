@@ -21,7 +21,7 @@ func TestWrite(t *testing.T) {
 	expected := []string{"test:2", "word:6"}
 
 	// exercise
-	sut, err := Open(dataSourceName)
+	sut, err := Open("mysql", dataSourceName)
 	checkErr(err, "open SUT failed")
 	defer sut.Close()
 

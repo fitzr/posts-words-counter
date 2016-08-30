@@ -1,7 +1,7 @@
 package task
 
 import (
-	"../reader"
+	"github.com/fitzr/posts-words-counter/reader"
 	"github.com/stretchr/testify/mock"
 	"os"
 	"testing"
@@ -20,7 +20,7 @@ func TestCount(t *testing.T) {
 	// setup
 
 	// input
-	fp, err := os.Open("../../testdata/Posts_count_test.xml")
+	fp, err := os.Open("../testdata/Posts_count_test.xml")
 	if err != nil {
 		t.Error(err)
 	}
@@ -51,7 +51,7 @@ func TestCountCalledTimes(t *testing.T) {
 	countPoolLowerLimit = 30
 
 	// input
-	fp, err := os.Open("../../testdata/Posts_count_test.xml")
+	fp, err := os.Open("../testdata/Posts_count_test.xml")
 	if err != nil {
 		t.Error(err)
 	}

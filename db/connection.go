@@ -1,9 +1,8 @@
 package db
 
 import (
-	"../writer"
 	"database/sql"
-	_ "github.com/go-sql-driver/mysql"
+	"github.com/fitzr/posts-words-counter/writer"
 )
 
 // DB connection.
@@ -17,8 +16,8 @@ type conn struct {
 }
 
 // Open database connection.
-func Open(dataSourceName string) (DB, error) {
-	db, err := sql.Open("mysql", dataSourceName)
+func Open(driverName, dataSourceName string) (DB, error) {
+	db, err := sql.Open(driverName, dataSourceName)
 	if err != nil {
 		return nil, err
 	}

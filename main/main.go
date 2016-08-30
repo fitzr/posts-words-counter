@@ -1,9 +1,10 @@
 package main
 
 import (
-	"../db"
-	"../reader"
-	"../task"
+	"github.com/fitzr/posts-words-counter/db"
+	"github.com/fitzr/posts-words-counter/reader"
+	"github.com/fitzr/posts-words-counter/task"
+	_ "github.com/go-sql-driver/mysql"
 	"log"
 	"os"
 )
@@ -26,7 +27,7 @@ func main() {
 	reader := reader.NewLineReader(fp)
 
 	// writer
-	conn, err := db.Open(outputDataSource)
+	conn, err := db.Open("mysql", outputDataSource)
 	if err != nil {
 		log.Fatal("db cannot open : ", err)
 	}
