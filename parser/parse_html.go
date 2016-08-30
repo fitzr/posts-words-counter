@@ -22,8 +22,10 @@ func extract(node *html.Node, buff *bytes.Buffer) {
 	if node.Type == html.TextNode && node.Parent.Data != "code" { // exclude <code>...</code>
 		data := strings.Trim(node.Data, "\r\n ")
 		if data != "" {
-			buff.WriteString(" ")
-			buff.WriteString(data)
+			_, err := buff.WriteString(" " + data)
+			if err != nil {
+				log.Fatal("write string failed : ", err)
+			}
 		}
 	}
 	for c := node.FirstChild; c != nil; c = c.NextSibling {

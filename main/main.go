@@ -23,7 +23,7 @@ func main() {
 	if err != nil {
 		log.Fatal("file cannot open : ", err)
 	}
-	defer fp.Close()
+	defer closeObject(fp)
 	reader := reader.NewLineReader(fp)
 
 	// writer
@@ -31,8 +31,17 @@ func main() {
 	if err != nil {
 		log.Fatal("db cannot open : ", err)
 	}
-	defer conn.Close()
+	defer closeObject(conn)
 
 	// execute
 	task.Count(reader, conn)
+}
+
+func closeObject(obj interface {
+	Close() error
+}) {
+	err := obj.Close()
+	if err != nil {
+		log.Println("cannot close : ", err)
+	}
 }
