@@ -16,7 +16,6 @@ dependencies:
     - gometalinter --install
   override:
     - go get -t -d -v ./...
-#    - go build -v ./...
     - (cd ~/.go_workspace/src/github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME; go install ./...)
 
 test:
