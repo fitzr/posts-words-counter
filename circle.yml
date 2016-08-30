@@ -17,12 +17,15 @@ dependencies:
     - go get -u github.com/alecthomas/gometalinter
     - gometalinter --install
   override:
-    - mkdir -p "$GOPATH/src/$IMPORT_PATH"
-    - rsync -azC --delete ./ "$GOPATH/src/$IMPORT_PATH/"
+    - go get -t -d -v ./...
+    - go build -v
+#  override:
+#    - mkdir -p "$GOPATH/src/$IMPORT_PATH"
+#    - rsync -azC --delete ./ "$GOPATH/src/$IMPORT_PATH/"
 
 test:
   override:
     - go get -v -t ./...
     - gometalinter --deadline 30s --exclude=_test.go ./...
     - go test -v -race ./...
-    - goveralls -v -service=circle-ci -repotoken $COVERALLS_TOKEN ./tcpproxy
+#    - goveralls -v -service=circle-ci -repotoken $COVERALLS_TOKEN ./tcpproxy
