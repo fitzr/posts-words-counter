@@ -1,10 +1,6 @@
 machine:
   timezone:
     Asia/Tokyo
-#  environment:
-#    GOROOT: ""
-#    PATH: "/usr/local/go/bin:/usr/local/go_workspace/bin:~/.go_workspace/bin:${PATH}"
-#    GOPATH: "~/.go_workspace:/usr/local/go_workspace:${HOME}/.go_project"
   services:
     - docker
   post:
@@ -20,10 +16,8 @@ dependencies:
     - gometalinter --install
   override:
     - go get -t -d -v ./...
-    - go build -v ./...
-#  override:
-#    - mkdir -p "$GOPATH/src/$IMPORT_PATH"
-#    - rsync -azC --delete ./ "$GOPATH/src/$IMPORT_PATH/"
+#    - go build -v ./...
+    - (cd ~/.go_workspace/src/github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME; go install ./...)
 
 test:
   override:
