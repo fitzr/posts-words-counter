@@ -1,6 +1,8 @@
 machine:
   timezone:
     Asia/Tokyo
+  environment:
+    IMPORT_PATH: "github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME"
   services:
     - docker
   post:
@@ -14,10 +16,13 @@ dependencies:
     - go get github.com/mattn/goveralls
     - go get -u github.com/alecthomas/gometalinter
     - gometalinter --install
+  override:
+    - mkdir -p "$GOPATH/src/$IMPORT_PATH"
+    - rsync -azC --delete ./ "$GOPATH/src/$IMPORT_PATH/"
 
 test:
   override:
     - go get -v -t ./...
-    - gometalinter --deadline 30s --exclude=*_test.go ./...
+    - gometalinter --deadline 30s --exclude=_test.go ./...
     - go test -v -race ./...
     - goveralls -v -service=circle-ci -repotoken $COVERALLS_TOKEN ./tcpproxy
