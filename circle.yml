@@ -19,12 +19,12 @@ dependencies:
   override:
     - go get -t -d -v ./...
   post:
-    - rm -rf $GO_PROJECT_ROOT
+    - rm -rf $GO_PROJECT_ROOT # remove my project to clear cache
 
+# Run test in GOPATH.
 test:
   pre:
-    - go get github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME
-    - (cd $GO_PROJECT_ROOT; go install ./...)
+    - go get github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/...
   override:
     - (cd $GO_PROJECT_ROOT; gometalinter --deadline 30s --exclude=_test.go ./...)
     - (cd $GO_PROJECT_ROOT; go test -v -cover -race -coverprofile=db.coverprofile     ./db)
