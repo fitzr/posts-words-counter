@@ -3,8 +3,6 @@ machine:
     Asia/Tokyo
   services:
     - docker
-  post:
-    - cat ~/.circlerc|sed 's/.*GITHUB_TOKEN.*//g'|sed 's/.*COVERALLS_TOKEN.*//g'
 
 dependencies:
   pre:
@@ -30,4 +28,4 @@ test:
     - go test -v -cover -race -coverprofile=task.coverprofile   ./task
     - go test -v -cover -race -coverprofile=writer.coverprofile ./writer
     - gover
-    - goveralls -coverprofile=gover.coverprofilse -service=circle-ci -repotoken=$COVERALLS_TOKEN
+    - goveralls -coverprofile=gover.coverprofile -service=circle-ci -repotoken=$COVERALLS_TOKEN
