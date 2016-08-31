@@ -4,7 +4,7 @@ machine:
   services:
     - docker
   environment:
-    GO_PROJECT_ROOT: ~/.go_workspace/src/github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME
+    GO_PROJECT_ROOT: /home/ubuntu/.go_workspace/src/github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME
 
 dependencies:
   pre:
