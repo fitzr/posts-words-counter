@@ -29,6 +29,5 @@ test:
     - (cd $GO_PROJECT_ROOT; go test -v -cover -race -coverprofile=reader.coverprofile ./reader)
     - (cd $GO_PROJECT_ROOT; go test -v -cover -race -coverprofile=task.coverprofie    ./task)
     - (cd $GO_PROJECT_ROOT; go test -v -cover -race -coverprofile=writer.coverprofile ./writer)
-    - (cd $GO_PROJECT_ROOT; go test -v -cover -race -coverprofile=writer.coverprofile ./writer)
     - (cd $GO_PROJECT_ROOT; gover)
     - (cd $GO_PROJECT_ROOT; goveralls -coverprofile=gover.coverprofile -service=circle-ci -repotoken=$COVERALLS_TOKEN)
