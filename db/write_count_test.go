@@ -9,10 +9,6 @@ import (
 	"testing"
 )
 
-const (
-	dataSourceName = "test_user:test_pass@tcp(127.0.0.1:13306)/stack_test"
-)
-
 func TestWrite(t *testing.T) {
 	defer tearDown()
 
@@ -51,6 +47,18 @@ func TestWrite(t *testing.T) {
 	if !reflect.DeepEqual(actual, expected) {
 		t.Errorf("\nexpected: %v\nactual: %v", expected, actual)
 	}
+}
+
+func TestWriteWithEmptyCount(t *testing.T) {
+	// setup
+	input := map[string]int{}
+
+	// exercise
+	sut, err := Open("mysql", dataSourceName)
+	checkErr(err, "open SUT failed")
+	defer sut.Close()
+
+	sut.WriteCount(input)
 }
 
 func tearDown() {

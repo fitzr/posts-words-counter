@@ -57,3 +57,14 @@ func TestExtractBodyFromXmlWithEmptyString(t *testing.T) {
 		t.Errorf("\nexpected: %v\nactual: %v", expected, actual)
 	}
 }
+
+func TestExtractBodyFromXmlWithSyntaxError(t *testing.T) {
+	input := "<br ...."
+	expected := ""
+
+	actual := ExtractBodyFromXML(input)
+
+	if actual != expected {
+		t.Errorf("\nexpected: %v\nactual: %v", expected, actual)
+	}
+}
