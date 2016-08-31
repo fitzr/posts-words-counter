@@ -19,7 +19,7 @@ dependencies:
   override:
     - go get -t -d -v ./...
   post:
-    - rm -r $GO_PROJECT_ROOT
+    - rm -rf $GO_PROJECT_ROOT
 
 test:
   pre:
