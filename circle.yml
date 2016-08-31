@@ -18,9 +18,13 @@ dependencies:
     - gometalinter --install
   override:
     - go get -t -d -v ./...
-    - (cd $GO_PROJECT_ROOT; go install ./...)
+  post:
+    - rm -r $GO_PROJECT_ROOT
 
 test:
+  pre:
+    - go get github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME
+    - (cd $GO_PROJECT_ROOT; go install ./...)
   override:
     - (cd $GO_PROJECT_ROOT; gometalinter --deadline 30s --exclude=_test.go ./...)
     - (cd $GO_PROJECT_ROOT; go test -v -cover -race -coverprofile=db.coverprofile     ./db)
