@@ -10,10 +10,11 @@ dependencies:
   pre:
     - docker run -d -p 13306:3306 -e MYSQL_ALLOW_EMPTY_PASSWORD=yes -e MYSQL_DATABASE=stack_test -e MYSQL_USER=test_user -e MYSQL_PASSWORD=test_pass mysql:latest
     - mysqladmin -h 127.0.0.1 -P 13306 -u test_user -ptest_pass -w ping
-    - go get golang.org/x/tools/cmd/cover
-    - go get github.com/axw/gocov/gocov
-    - go get github.com/modocache/gover
-    - go get github.com/mattn/goveralls
+    - go get -u golang.org/x/tools/cmd/cover
+    - go get -u github.com/axw/gocov/gocov
+    - go get -u github.com/modocache/gover
+    - go get -u github.com/jstemmer/go-junit-report
+    - go get -u github.com/mattn/goveralls
     - go get -u github.com/alecthomas/gometalinter
     - gometalinter --install
   override:
@@ -25,13 +26,14 @@ dependencies:
 test:
   pre:
     - go get github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/...
+    - mkdir -p $CIRCLE_TEST_REPORTS/golang
   override:
     - (cd $GO_PROJECT_ROOT; gometalinter --deadline 30s --exclude=_test.go ./...)
-    - (cd $GO_PROJECT_ROOT; go test -v -cover -race -coverprofile=db.coverprofile     ./db)
-    - (cd $GO_PROJECT_ROOT; go test -v -cover -race -coverprofile=main.coverprofile   ./main)
-    - (cd $GO_PROJECT_ROOT; go test -v -cover -race -coverprofile=parser.coverprofile ./parser)
-    - (cd $GO_PROJECT_ROOT; go test -v -cover -race -coverprofile=reader.coverprofile ./reader)
-    - (cd $GO_PROJECT_ROOT; go test -v -cover -race -coverprofile=task.coverprofie    ./task)
-    - (cd $GO_PROJECT_ROOT; go test -v -cover -race -coverprofile=writer.coverprofile ./writer)
+    - (cd $GO_PROJECT_ROOT; go test -v -cover -race -coverprofile=db.coverprofile     ./db     | go-junit-report -set-exit-code=true > $CIRCLE_TEST_REPORTS/golang/db.xml    )
+    - (cd $GO_PROJECT_ROOT; go test -v -cover -race -coverprofile=main.coverprofile   ./main   | go-junit-report -set-exit-code=true > $CIRCLE_TEST_REPORTS/golang/main.xml  )
+    - (cd $GO_PROJECT_ROOT; go test -v -cover -race -coverprofile=parser.coverprofile ./parser | go-junit-report -set-exit-code=true > $CIRCLE_TEST_REPORTS/golang/parser.xml)
+    - (cd $GO_PROJECT_ROOT; go test -v -cover -race -coverprofile=reader.coverprofile ./reader | go-junit-report -set-exit-code=true > $CIRCLE_TEST_REPORTS/golang/reader.xml)
+    - (cd $GO_PROJECT_ROOT; go test -v -cover -race -coverprofile=task.coverprofie    ./task   | go-junit-report -set-exit-code=true > $CIRCLE_TEST_REPORTS/golang/task.xml  )
+    - (cd $GO_PROJECT_ROOT; go test -v -cover -race -coverprofile=writer.coverprofile ./writer | go-junit-report -set-exit-code=true > $CIRCLE_TEST_REPORTS/golang/writer.xml)
     - (cd $GO_PROJECT_ROOT; gover)
     - (cd $GO_PROJECT_ROOT; goveralls -coverprofile=gover.coverprofile -service=circle-ci -repotoken=$COVERALLS_TOKEN)
