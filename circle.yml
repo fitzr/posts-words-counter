@@ -3,6 +3,8 @@ machine:
     Asia/Tokyo
   services:
     - docker
+  environment:
+    GO_PROJECT_ROOT: ~/.go_workspace/src/github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME
 
 dependencies:
   pre:
@@ -16,18 +18,17 @@ dependencies:
     - gometalinter --install
   override:
     - go get -t -d -v ./...
-    - (cd ~/.go_workspace/src/github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME; go install ./...)
+    - (cd GO_HOME; go install ./...)
 
 test:
   override:
-    - cd ~/.go_workspace/src/github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME
-    - gometalinter --deadline 30s --exclude=_test.go ./...
-    - go test -v -cover -race -coverprofile=db.coverprofile     ./db
-    - go test -v -cover -race -coverprofile=main.coverprofile   ./main
-    - go test -v -cover -race -coverprofile=parser.coverprofile ./parser
-    - go test -v -cover -race -coverprofile=reader.coverprofile ./reader
-    - go test -v -cover -race -coverprofile=task.coverprofile   ./task
-    - go test -v -cover -race -coverprofile=writer.coverprofile ./writer
-    - gover
-    - goveralls -coverprofile=gover.coverprofile -service=circle-ci -repotoken=$COVERALLS_TOKEN
-    - cd -
+    - (cd $GO_PROJECT_ROOT; gometalinter --deadline 30s --exclude=_test.go ./...)
+    - (cd $GO_PROJECT_ROOT; go test -v -cover -race -coverprofile=db.coverprofile     ./db)
+    - (cd $GO_PROJECT_ROOT; go test -v -cover -race -coverprofile=main.coverprofile   ./main)
+    - (cd $GO_PROJECT_ROOT; go test -v -cover -race -coverprofile=parser.coverprofile ./parser)
+    - (cd $GO_PROJECT_ROOT; go test -v -cover -race -coverprofile=reader.coverprofile ./reader)
+    - (cd $GO_PROJECT_ROOT; go test -v -cover -race -coverprofile=task.coverprofie    ./task)
+    - (cd $GO_PROJECT_ROOT; go test -v -cover -race -coverprofile=writer.coverprofile ./writer)
+    - (cd $GO_PROJECT_ROOT; go test -v -cover -race -coverprofile=writer.coverprofile ./writer)
+    - (cd $GO_PROJECT_ROOT; gover)
+    - (cd $GO_PROJECT_ROOT; goveralls -coverprofile=gover.coverprofile -service=circle-ci -repotoken=$COVERALLS_TOKEN)
