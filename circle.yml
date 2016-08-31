@@ -10,8 +10,10 @@ dependencies:
   pre:
     - docker run -d -p 13306:3306 -e MYSQL_ALLOW_EMPTY_PASSWORD=yes -e MYSQL_DATABASE=stack_test -e MYSQL_USER=test_user -e MYSQL_PASSWORD=test_pass mysql:latest
     - mysqladmin -h 127.0.0.1 -P 13306 -u test_user -ptest_pass -w ping
-    - go get github.com/mattn/goveralls
     - go get golang.org/x/tools/cmd/cover
+    - go get github.com/axw/gocov/gocov
+    - go get github.com/modocache/gover
+    - go get github.com/mattn/goveralls
     - go get -u github.com/alecthomas/gometalinter
     - gometalinter --install
   override:
@@ -21,6 +23,12 @@ dependencies:
 test:
   override:
     - gometalinter --deadline 30s --exclude=_test.go ./...
-    - go test -v -cover -race -coverprofile=/home/ubuntu/coverage.out ./...
-  post:
-    - /home/ubuntu/.go_workspace/bin/goveralls -coverprofile=/home/ubuntu/coverage.out -service=circle-ci -repotoken=$COVERALLS_TOKEN
+    - go test -v -race ./...
+#    - go test -v -cover -race -coverprofile=db.coverprofile     ./db
+#    - go test -v -cover -race -coverprofile=main.coverprofile   ./main
+#    - go test -v -cover -race -coverprofile=parser.coverprofile ./parser
+#    - go test -v -cover -race -coverprofile=reader.coverprofile ./reader
+#    - go test -v -cover -race -coverprofile=task.coverprofile   ./task
+#    - go test -v -cover -race -coverprofile=writer.coverprofile ./writer
+    - gover
+    - goveralls -coverprofile=gover.coverprofilse -service=circle-ci -repotoken=$COVERALLS_TOKEN
