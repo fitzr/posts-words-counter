@@ -23,12 +23,11 @@ dependencies:
 test:
   override:
     - gometalinter --deadline 30s --exclude=_test.go ./...
-    - go test -v -race ./...
-#    - go test -v -cover -race -coverprofile=db.coverprofile     ./db
-#    - go test -v -cover -race -coverprofile=main.coverprofile   ./main
-#    - go test -v -cover -race -coverprofile=parser.coverprofile ./parser
-#    - go test -v -cover -race -coverprofile=reader.coverprofile ./reader
-#    - go test -v -cover -race -coverprofile=task.coverprofile   ./task
-#    - go test -v -cover -race -coverprofile=writer.coverprofile ./writer
+    - go test -v -cover -race -coverprofile=db.coverprofile     ./db
+    - go test -v -cover -race -coverprofile=main.coverprofile   ./main
+    - go test -v -cover -race -coverprofile=parser.coverprofile ./parser
+    - go test -v -cover -race -coverprofile=reader.coverprofile ./reader
+    - go test -v -cover -race -coverprofile=task.coverprofile   ./task
+    - go test -v -cover -race -coverprofile=writer.coverprofile ./writer
     - gover
     - goveralls -coverprofile=gover.coverprofilse -service=circle-ci -repotoken=$COVERALLS_TOKEN
