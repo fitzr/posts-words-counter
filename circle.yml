@@ -20,6 +20,7 @@ dependencies:
 
 test:
   override:
+    - cd ~/.go_workspace/src/github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME
     - gometalinter --deadline 30s --exclude=_test.go ./...
     - go test -v -cover -race -coverprofile=db.coverprofile     ./db
     - go test -v -cover -race -coverprofile=main.coverprofile   ./main
@@ -29,3 +30,4 @@ test:
     - go test -v -cover -race -coverprofile=writer.coverprofile ./writer
     - gover
     - goveralls -coverprofile=gover.coverprofile -service=circle-ci -repotoken=$COVERALLS_TOKEN
+    - cd -
